@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Job Not Found</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+        .container {
+            text-align: center;
+            background: rgba(255,255,255,0.1);
+            padding: 50px;
+            border-radius: 12px;
+        }
+        h1 { font-size: 3em; margin-bottom: 20px; }
+        p { font-size: 1.2em; margin: 20px 0; }
+        a {
+            background: white;
+            color: #667eea;
+            padding: 15px 30px;
+            border-radius: 8px;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 Job Not Found</h1>
+        <p>Job ID: {{ job_id }}</p>
+        <p>This job may still be processing or doesn't exist.</p>
+        <p>Please wait a moment and refresh, or check your job ID.</p>
+        <a href="/">← Back to Dashboard</a>
+    </div>
+</body>
+</html>

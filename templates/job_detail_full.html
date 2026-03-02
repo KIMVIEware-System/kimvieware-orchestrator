@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Job {{ job_id[:8] }} - Full Details</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Monaco', 'Courier New', monospace;
+            background: #0a0e27;
+            color: #e0e0e0;
+            padding: 20px;
+        }
+        .container { max-width: 1600px; margin: 0 auto; }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 30px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            color: white;
+        }
+        
+        .header h1 { font-size: 2em; margin-bottom: 10px; }
+        .header .meta { opacity: 0.9; }
+        
+        .back-btn {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            display: inline-block;
+            margin-bottom: 15px;
+        }
+        
+        .section {
+            background: #1a1f3a;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 20px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .section-title {
+            color: #667eea;
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .trajectory-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .trajectory-card {
+            background: #0f1629;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #2a3f5f;
+            transition: all 0.3s;
+        }
+        
+        .trajectory-card:hover {
+            border-color: #667eea;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+        
+        .trajectory-id {
+            color: #667eea;
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+        
+        .trajectory-detail {
+            font-size: 0.9em;
+            margin: 5px 0;
+            padding: 5px;
+            background: rgba(102, 126, 234, 0.1);
+            border-radius: 4px;
+        }
+        
+        .trajectory-detail span {
+            color: #8b9dc3;
+        }
+        
+        .trajectory-detail strong {
+            color: #e0e0e0;
+        }
+        
+        .code-block {
+            background: #0f1629;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-size: 0.9em;
+            border: 1px solid #2a3f5f;
+            margin-top: 10px;
+        }
+        
+        .code-block pre {
+            margin: 0;
+            color: #e0e0e0;
+        }
+        
+        .metric-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .metric-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            color: white;
+        }
+        
+        .metric-value {
+            font-size: 2.5em;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        
+        .metric-label {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: bold;
+            margin: 2px;
+        }
+        
+        .badge-selected { background: #4CAF50; color: white; }
+        .badge-eliminated { background: #666; color: white; }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        
+        .comparison-table th,
+        .comparison-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #2a3f5f;
+        }
+        
+        .comparison-table th {
+            background: rgba(102, 126, 234, 0.2);
+            color: #667eea;
+            font-weight: bold;
+        }
+        
+        .comparison-table tr:hover {
+            background: rgba(102, 126, 234, 0.1);
+        }
+        
+        .test-case {
+            background: #0f1629;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border-left: 3px solid #4CAF50;
+        }
+        
+        .test-case-title {
+            color: #4CAF50;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="/" class="back-btn">← Back to Dashboard</a>
+        
+        <div class="header">
+            <h1>🔬 Complete Analysis Report</h1>
+            <div class="meta">
+                <strong>Job ID:</strong> {{ job_id }}<br>
+                <strong>SUT:</strong> {{ sut_name }}<br>
+                <strong>Processing Time:</strong> {{ total_time }}s
+            </div>
+        </div>
+        
+        <!-- PHASE 1: ALL EXTRACTED PATHS -->
+        <div class="section">
+            <div class="section-title">
+                📊 Phase 1: Symbolic Execution - All Extracted Paths
+            </div>
+            
+            <div class="metric-row">
+                <div class="metric-box">
+                    <div class="metric-label">Total Trajectories</div>
+                    <div class="metric-value">{{ phase1_count }}</div>
+                </div>
+                <div class="metric-box">
+                    <div class="metric-label">Branch Points</div>
+                    <div class="metric-value">{{ branch_points }}</div>
+                </div>
+                <div class="metric-box">
+                    <div class="metric-label">Functions Analyzed</div>
+                    <div class="metric-value">{{ functions }}</div>
+                </div>
+                <div class="metric-box">
+                    <div class="metric-label">Extraction Time</div>
+                    <div class="metric-value">{{ phase1_time }}ms</div>
+                </div>
+            </div>
+            
+            <h3 style="color: #667eea; margin-top: 30px;">All {{ phase1_count }} Extracted Trajectories:</h3>
+            
+            <div class="trajectory-grid">
+                {% for traj in phase1_trajectories %}
+                <div class="trajectory-card">
+                    <div class="trajectory-id">{{ traj.path_id }}</div>
+                    <div class="trajectory-detail">
+                        <span>Blocks:</span> <strong>{{ traj.basic_blocks|length }}</strong>
+                    </div>
+                    <div class="trajectory-detail">
+                        <span>Branches:</span> <strong>{{ traj.branches_covered|length }}</strong>
+                    </div>
+                    <div class="trajectory-detail">
+                        <span>Constraints:</span> <strong>{{ traj.constraints|length }}</strong>
+                    </div>
+                    <div class="trajectory-detail">
+                        <span>Cost:</span> <strong>{{ "%.3f"|format(traj.cost) }}</strong>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        
+        <!-- PHASE 2: SGATS REDUCTION -->
+        <div class="section">
+            <div class="section-title">
+                🔀 Phase 2: SGATS Reduction - Detailed Analysis
+            </div>
+            
+            <div class="metric-row">
+                <div class="metric-box">
+                    <div class="metric-label">Input Trajectories</div>
+                    <div class="metric-value">{{ phase1_count }}</div>
+                </div>
+                <div class="metric-box">
+                    <div class="metric-label">Reduced To</div>
+                    <div class="metric-value">{{ phase2_count }}</div>
+                </div>
+                <div class="metric-box">
+                    <div class="metric-label">Reduction Rate</div>
+                    <div class="metric-value">{{ "%.1f"|format(sgats_reduction * 100) }}%</div>
+                </div>
+                <div class="metric-box">
+                    <div class="metric-label">Coverage</div>
+                    <div class="metric-value">{{ "%.1f"|format(sgats_coverage * 100) }}%</div>
+                </div>
+            </div>
+            
+            <h3 style="color: #667eea; margin-top: 30px;">Selected Trajectories ({{ phase2_count }}):</h3>
+            
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Path ID</th>
+                        <th>Priority ρ</th>
+                        <th>Blocks</th>
+                        <th>Branches</th>
+                        <th>Cost</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for traj in phase2_trajectories %}
+                    <tr>
+                        <td>{{ traj.path_id }}</td>
+                        <td>{{ "%.4f"|format(traj.priority) }}</td>
+                        <td>{{ traj.basic_blocks|length }}</td>
+                        <td>{{ traj.branches_covered|length }}</td>
+                        <td>{{ "%.3f"|format(traj.cost) }}</td>
+                        <td><span class="badge badge-selected">SELECTED</span></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            
+            <div class="code-block">
+                <strong>SGATS Algorithm Results:</strong>
+                <pre>
+- Similarity threshold θ = 0.6
+- Priority weights: α=0.4 (cost), β=0.3 (coverage), γ=0.3 (length)
+- {{ eliminated_count }} trajectories eliminated through similarity fusion
+- Coverage preserved: {{ "%.1f"|format(sgats_coverage * 100) }}%
+- Cost reduction: {{ "%.1f"|format(cost_reduction * 100) }}%
+                </pre>
+            </div>
+        </div>
+        
+        <!-- PHASE 3: EVOPATH-GA OPTIMIZATION -->
+        <div class="section">
+            <div class="section-title">
+                🧬 Phase 3: EvoPath-GA - Genetic Algorithm Optimization
+            </div>
+            
+            <div class="metric-row">
+                <div class="metric-box">
+                    <div class="metric-label">Input</div>
+                    <div class="metric-value">{{ phase2_count }}</div>
+                </div>
+                <div class="metric-box">
+                    <div class="metric-label">Optimized To</div>
+                    <div class="metric-value">{{ phase3_count }}</div>
+                </div>
+                <div class="metric-box">
+                    <div class="metric-label">Best Fitness</div>
+                    <div class="metric-value">{{ "%.4f"|format(ga_fitness) }}</div>
+                </div>
+                <div class="metric-box">
+                    <div class="metric-label">Generations</div>
+                    <div class="metric-value">{{ ga_generations }}</div>
+                </div>
+            </div>
+            
+            <h3 style="color: #667eea; margin-top: 30px;">Final Optimized Set ({{ phase3_count }} tests):</h3>
+            
+            <div class="trajectory-grid">
+                {% for traj in phase3_trajectories %}
+                <div class="trajectory-card" style="border-color: #4CAF50;">
+                    <div class="trajectory-id" style="color: #4CAF50;">{{ traj.path_id }} ⭐</div>
+                    <div class="trajectory-detail">
+                        <span>Blocks:</span> <strong>{{ traj.basic_blocks|length }}</strong>
+                    </div>
+                    <div class="trajectory-detail">
+                        <span>Branches:</span> <strong>{{ traj.branches_covered|length }}</strong>
+                    </div>
+                    <div class="trajectory-detail">
+                        <span>Cost:</span> <strong>{{ "%.3f"|format(traj.cost) }}</strong>
+                    </div>
+                    <div class="trajectory-detail">
+                        <span>Fitness:</span> <strong>{{ "%.4f"|format(traj.fitness) }}</strong>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            
+            <div class="code-block">
+                <strong>Multi-Objective Fitness Function (Eq 3.3):</strong>
+                <pre>
+F(C) = w₁·cov(C) + w₂·(1 - cost(C)/maxCost) + w₃·(1 - |C|/|T|)
+
+Where:
+- w₁ = 0.5 (coverage weight)
+- w₂ = 0.3 (cost weight)
+- w₃ = 0.2 (size weight)
+- Best fitness achieved: {{ "%.4f"|format(ga_fitness) }}
+- Converged at generation: {{ ga_convergence }}
+                </pre>
+            </div>
+        </div>
+        
+        <!-- PHASE 4: GENERATED TESTS -->
+        <div class="section">
+            <div class="section-title">
+                🧪 Phase 4: Generated Test Cases
+            </div>
+            
+            <div class="metric-row">
+                <div class="metric-box">
+                    <div class="metric-label">Tests Generated</div>
+                    <div class="metric-value">{{ phase3_count }}</div>
+                </div>
+                <div class="metric-box">
+                    <div class="metric-label">Mutation Score</div>
+                    <div class="metric-value">{{ "%.1f"|format(mutation_score) }}%</div>
+                </div>
+                <div class="metric-box">
+                    <div class="metric-label">Mutants Killed</div>
+                    <div class="metric-value">{{ mutants_killed }}/{{ total_mutants }}</div>
+                </div>
+                <div class="metric-box">
+                    <div class="metric-label">Quality</div>
+                    <div class="metric-value">{{ quality }}</div>
+                </div>
+            </div>
+            
+            <h3 style="color: #667eea; margin-top: 30px;">Generated Test Suite:</h3>
+            
+            {% for test in generated_tests %}
+            <div class="test-case">
+                <div class="test-case-title">{{ test.name }}</div>
+                <div class="code-block">
+                    <pre>{{ test.code }}</pre>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <!-- SUMMARY -->
+        <div class="section">
+            <div class="section-title">
+                📈 Complete Pipeline Summary
+            </div>
+            
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Phase</th>
+                        <th>Input</th>
+                        <th>Output</th>
+                        <th>Reduction</th>
+                        <th>Time</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Phase 0: Validation</td>
+                        <td>1 SUT</td>
+                        <td>Validated</td>
+                        <td>-</td>
+                        <td>{{ phase0_time }}ms</td>
+                    </tr>
+                    <tr>
+                        <td>Phase 1: Extraction</td>
+                        <td>-</td>
+                        <td>{{ phase1_count }} paths</td>
+                        <td>-</td>
+                        <td>{{ phase1_time }}ms</td>
+                    </tr>
+                    <tr>
+                        <td>Phase 2: SGATS</td>
+                        <td>{{ phase1_count }}</td>
+                        <td>{{ phase2_count }}</td>
+                        <td>{{ "%.1f"|format(sgats_reduction * 100) }}%</td>
+                        <td>{{ phase2_time }}ms</td>
+                    </tr>
+                    <tr>
+                        <td>Phase 3: EvoPath-GA</td>
+                        <td>{{ phase2_count }}</td>
+                        <td>{{ phase3_count }}</td>
+                        <td>{{ "%.1f"|format(ga_reduction * 100) }}%</td>
+                        <td>{{ phase3_time }}ms</td>
+                    </tr>
+                    <tr>
+                        <td>Phase 4: Execution</td>
+                        <td>{{ phase3_count }}</td>
+                        <td>Results</td>
+                        <td>-</td>
+                        <td>{{ phase4_time }}ms</td>
+                    </tr>
+                    <tr style="background: rgba(102, 126, 234, 0.2); font-weight: bold;">
+                        <td>TOTAL</td>
+                        <td>1 SUT</td>
+                        <td>{{ phase3_count }} tests</td>
+                        <td>{% if phase1_count > 0 %}{{ "%.1f"|format((1 - phase3_count / phase1_count) * 100) }}{% else %}0{% endif %}%</td>
+                        <td>{{ total_time }}s</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
