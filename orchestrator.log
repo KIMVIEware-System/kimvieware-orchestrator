@@ -1,0 +1,44 @@
+✅ App imported successfully
+🚀 Starting server on port 8001...
+INFO:     Started server process [319378]
+INFO:     Waiting for application startup.
+[Orchestrator] 2026-03-13 12:29:40 - INFO - Started consumer thread for validation.completed
+[Orchestrator] 2026-03-13 12:29:40 - INFO - Started consumer thread for extraction.completed
+[Orchestrator] 2026-03-13 12:29:40 - INFO - Started consumer thread for reduction.completed
+[Orchestrator] 2026-03-13 12:29:40 - INFO - Started consumer thread for optimization.completed
+[Orchestrator] 2026-03-13 12:29:40 - INFO - Started consumer thread for execution.completed
+INFO:     Application startup complete.
+ERROR:    [Errno 98] error while attempting to bind on address ('0.0.0.0', 8001): address already in use
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+[Orchestrator] 2026-03-13 12:29:40 - INFO - ✅ Connected to RabbitMQ at localhost:5672
+[Orchestrator] 2026-03-13 12:29:40 - INFO - ✅ Connected to RabbitMQ at localhost:5672
+[Orchestrator] 2026-03-13 12:29:40 - INFO - ✅ Connected to RabbitMQ at localhost:5672
+[Orchestrator] 2026-03-13 12:29:40 - INFO - 🚀 Started consumer for optimization.completed
+[Orchestrator] 2026-03-13 12:29:40 - INFO - ✅ Connected to RabbitMQ at localhost:5672
+[Orchestrator] 2026-03-13 12:29:40 - INFO - 🚀 Started consumer for extraction.completed
+[Orchestrator] 2026-03-13 12:29:40 - INFO - 🚀 Started consumer for reduction.completed
+[Orchestrator] 2026-03-13 12:29:40 - INFO - ✅ Connected to RabbitMQ at localhost:5672
+[Orchestrator] 2026-03-13 12:29:40 - INFO - 🚀 Started consumINFO:     127.0.0.1:39694 - "GET /api/stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56824 - "GET /api/stats HTTP/1.1" 200 OK
+[Orchestrator] 2026-03-13 12:30:25 - INFO - ✅ Connected to RabbitMQ at localhost:5672
+[Orchestrator] 2026-03-13 12:30:25 - INFO - 📤 Published job job_0024 to 'submission.new' queue
+INFO:     127.0.0.1:42548 - "POST /api/submit HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57806 - "GET /api/jobs/job_0024 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57822 - "GET /api/jobs/job_0024 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53322 - "GET /api/jobs/job_0024 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53338 - "GET /api/jobs/job_0024 HTTP/1.1" 200 OK
+[Orchestrator] 2026-03-13 12:30:42 - INFO - 📤 Published job job_0025 to 'submission.new' queue
+INFO:     127.0.0.1:53350 - "POST /api/submit HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53352 - "GET /api/jobs/job_0024 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40488 - "GET /api/jobs/job_0025 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40492 - "GET /api/jobs/job_0024 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40506 - "GET /api/jobs/job_0024 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56478 - "GET /api/jobs/job_0024 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56490 - "GET /api/jobs/job_0024 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56502 - "GET /api/jobs/job_0024 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46884 - "GET /api/jobs/job_0024 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46890 - "GET /api/jobs/job_0024 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53540 - "GET /api/jobs/job_0024 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53552 - "GET /api/jobs/job_0024 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53564 - "GET /api/jobs/job_0024 HTTP/1.1" 200 OK
