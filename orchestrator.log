@@ -42,3 +42,20 @@ INFO:     127.0.0.1:46890 - "GET /api/jobs/job_0024 HTTP/1.1" 200 OK
 INFO:     127.0.0.1:53540 - "GET /api/jobs/job_0024 HTTP/1.1" 200 OK
 INFO:     127.0.0.1:53552 - "GET /api/jobs/job_0024 HTTP/1.1" 200 OK
 INFO:     127.0.0.1:53564 - "GET /api/jobs/job_0024 HTTP/1.1" 200 OK
+[Orchestrator] 2026-03-13 15:03:47 - ERROR - ❌ Error submitting job: Stream connection lost: BrokenPipeError(32, 'Broken pipe')
+INFO:     127.0.0.1:46648 - "POST /api/submit HTTP/1.1" 500 Internal Server Error
+[Orchestrator] 2026-03-13 15:27:19 - INFO - ✅ Connected to RabbitMQ at localhost:5672
+[Orchestrator] 2026-03-13 15:27:19 - INFO - 📤 Published job job_0028 to 'submission.new' queue
+INFO:     127.0.0.1:35804 - "POST /api/submit HTTP/1.1" 200 OK
+[Orchestrator] 2026-03-13 15:27:19 - INFO - 📥 Received completion from validation.completed for job job_0028
+[Orchestrator] 2026-03-13 15:27:19 - INFO - ✅ Updated MongoDB for job job_0028 phase validation
+INFO:     127.0.0.1:58756 - "GET /api/jobs/job_0028 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42910 - "GET /api/jobs/job_0028 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46840 - "GET /api/jobs/job_0028 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59284 - "GET /api/jobs/job_0028 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38874 - "GET /api/jobs/job_0028 HTTP/1.1" 200 OK
+[Orchestrator] 2026-03-14 07:41:35 - ERROR - ❌ Failed to start consumer for execution.completed: (320, "CONNECTION_FORCED - broker forced connection closure with reason 'shutdown'")
+[Orchestrator] 2026-03-14 07:41:35 - ERROR - ❌ Failed to start consumer for optimization.completed: (320, "CONNECTION_FORCED - broker forced connection closure with reason 'shutdown'")
+[Orchestrator] 2026-03-14 07:41:35 - ERROR - ❌ Failed to start consumer for validation.completed: (320, "CONNECTION_FORCED - broker forced connection closure with reason 'shutdown'")
+[Orchestrator] 2026-03-14 07:41:35 - ERROR - ❌ Failed to start consumer for reduction.completed: (320, "CONNECTION_FORCED - broker forced connection closure with reason 'shutdown'")
+[Orchestrator] 2026-03-14 07:41:36 - ERROR - ❌ Failed to start consumer for extraction.completed: (320, "CONNECTION_FORCED - broker forced connection closure with reason 'shutdown'")
